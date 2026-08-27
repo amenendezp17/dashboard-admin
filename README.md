@@ -2,7 +2,7 @@
 
 Dashboard/panel admin ficticio (tipo SaaS interno) con métricas, gráficos y CRUD completo sobre tres entidades: **Clientes**, **Pedidos** y **Usuarios**. Sin backend — todo se persiste en `localStorage` vía Zustand.
 
-Construido según [spec-proyecto-dashboard-admin.md](./spec-proyecto-dashboard-admin.md).
+
 
 ## Stack
 
