@@ -8,15 +8,16 @@ import { getUsuariosColumns } from "@/components/data-table/columns-usuarios";
 import { DataTable } from "@/components/data-table/data-table";
 import { DeleteConfirmDialog } from "@/components/modals/delete-confirm-dialog";
 import { UsuarioFormDialog } from "@/components/modals/usuario-form-dialog";
+import { DemoBadge } from "@/components/demo-badge";
+import { ResetDataButton } from "@/components/reset-data-button";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useUsuariosStore } from "@/lib/stores/usuarios-store";
 import type { Usuario } from "@/lib/types";
 
 export default function UsuariosPage() {
   const usuarios = useUsuariosStore((s) => s.items);
-  const hasHydrated = useUsuariosStore((s) => s.hasHydrated);
   const remove = useUsuariosStore((s) => s.remove);
+  const reset = useUsuariosStore((s) => s.reset);
 
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState<Usuario | null>(null);
@@ -32,27 +33,27 @@ export default function UsuariosPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between gap-4">
-        <div>
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <div className="flex flex-col gap-2">
           <h1 className="text-2xl font-bold tracking-tight">Usuarios</h1>
           <p className="text-sm text-muted-foreground">Administra los usuarios de la app.</p>
+          <DemoBadge />
         </div>
-        <Button
-          onClick={() => {
-            setEditing(null);
-            setFormOpen(true);
-          }}
-        >
-          <Plus className="size-4" />
-          Nuevo usuario
-        </Button>
+        <div className="flex items-center gap-2">
+          <ResetDataButton label="los usuarios" onReset={reset} />
+          <Button
+            onClick={() => {
+              setEditing(null);
+              setFormOpen(true);
+            }}
+          >
+            <Plus className="size-4" />
+            Nuevo usuario
+          </Button>
+        </div>
       </div>
 
-      {hasHydrated ? (
-        <DataTable columns={columns} data={usuarios} searchPlaceholder="Buscar por nombre, email…" />
-      ) : (
-        <Skeleton className="h-96 w-full" />
-      )}
+      <DataTable columns={columns} data={usuarios} searchPlaceholder="Buscar por nombre, email…" />
 
       <UsuarioFormDialog open={formOpen} onOpenChange={setFormOpen} usuario={editing} />
       <DeleteConfirmDialog

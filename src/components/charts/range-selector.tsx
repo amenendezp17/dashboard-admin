@@ -27,7 +27,7 @@ export function RangeSelector({
               "rounded-md px-3 py-1.5 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
               active
                 ? "bg-background text-foreground shadow-sm"
-                : "text-slate-600 hover:text-foreground dark:text-slate-300 dark:hover:text-foreground",
+                : "text-muted-foreground hover:text-foreground",
             )}
           >
             {RANGO_LABEL[option]}

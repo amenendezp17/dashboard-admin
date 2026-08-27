@@ -6,7 +6,7 @@ const EMAIL = "e2e.playwright@example.com";
 const EMPRESA = "QA Corp";
 
 test.describe("CRUD de clientes (positivo)", () => {
-  test("crear, editar y eliminar un cliente persiste en localStorage", async ({ page }) => {
+  test("crear, editar y eliminar un cliente funciona dentro de la sesión", async ({ page }) => {
     await page.goto("/clientes");
 
     // --- Crear ---
@@ -27,13 +27,8 @@ test.describe("CRUD de clientes (positivo)", () => {
     await expect(row).toBeVisible();
     await expect(row.getByText(EMAIL)).toBeVisible();
 
-    // --- Persiste tras recargar ---
-    await page.reload();
-    await page.getByPlaceholder("Buscar por nombre, email, empresa…").fill(NOMBRE);
-    await expect(page.locator("tbody tr", { hasText: NOMBRE })).toBeVisible();
-
     // --- Editar ---
-    await page.locator("tbody tr", { hasText: NOMBRE }).getByLabel(/^Acciones para/).click();
+    await row.getByLabel(/^Acciones para/).click();
     await page.getByRole("menuitem", { name: "Editar" }).click();
     const editDialog = page.getByRole("dialog", { name: "Editar cliente" });
     await expect(editDialog).toBeVisible();
@@ -54,11 +49,6 @@ test.describe("CRUD de clientes (positivo)", () => {
     await confirmDialog.getByRole("button", { name: "Eliminar" }).click();
 
     await expect(page.getByText("Cliente eliminado")).toBeVisible();
-    await expect(page.locator("tbody tr", { hasText: NOMBRE_EDITADO })).toHaveCount(0);
-
-    // --- El borrado también persiste ---
-    await page.reload();
-    await page.getByPlaceholder("Buscar por nombre, email, empresa…").fill(NOMBRE_EDITADO);
     await expect(page.locator("tbody tr", { hasText: NOMBRE_EDITADO })).toHaveCount(0);
   });
 

@@ -43,9 +43,7 @@ export function ThemeToggle() {
             onClick={() => setTheme(option.value)}
             className={cn(
               "flex items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
-              active
-                ? "bg-background text-foreground shadow-sm"
-                : "text-slate-600 hover:text-foreground dark:text-slate-300 dark:hover:text-foreground",
+              active ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground",
             )}
           >
             <option.icon className="size-4" />
